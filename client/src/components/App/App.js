@@ -1,6 +1,6 @@
 import './App.css'
-import React, { useState, useEffect } from 'react'
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'
+import {HashRouter as Router, Route, Routes} from 'react-router-dom'
 import AppContext from '../../state/AppContext'
 
 import AuthGuard from '../AuthGuard'
@@ -17,102 +17,105 @@ import ProjectStore from '../../state/stores/ProjectStore'
 import TaskStore from '../../state/stores/TaskStore'
 import UserSuggestionStore from '../../state/stores/UserSuggestionStore'
 import ErrorDisplay from '../ErrorDisplay'
+import RegularUsersStore from "../../state/stores/RegularUsersStore";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [userStore] = useState(new UserStore())
-  const [projectStore] = useState(new ProjectStore())
-  const [taskStore] = useState(new TaskStore())
-  const [userSuggestionStore] = useState(new UserSuggestionStore())
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [userStore] = useState(new UserStore())
+    const [projectStore] = useState(new ProjectStore())
+    const [taskStore] = useState(new TaskStore())
+    const [userSuggestionStore] = useState(new UserSuggestionStore())
+    const [regularUsersStore] = useState(new RegularUsersStore());
 
-  useEffect(() => {
-    userStore.emitter.addListener('LOGIN_SUCCESS', () => {
-      setIsAuthenticated(true)
-    })
-  }, [])
+    useEffect(() => {
+        userStore.emitter.addListener('LOGIN_SUCCESS', () => {
+            setIsAuthenticated(true)
+        })
+    }, [])
 
-  return (
-    <AppContext.Provider value={{
-      user: userStore,
-      project: projectStore,
-      task: taskStore,
-      userSuggestion: userSuggestionStore
-    }}
-    >
-      {
-        isAuthenticated && (
-          <div className='app-header'>
-            <div>
-              <h5>Welcome, {userStore.data.email}</h5>
-            </div>
-            <div>
-              <button onClick={() => {
-                userStore.logout()
-                setIsAuthenticated(false)
-              }}
-              >Logout
-              </button>
-            </div>
-          </div>
-        )
-      }
-      <ErrorDisplay />
-      <Router>
-        <Routes>
-          <Route path='/login' element={<LoginForm />} />
-          <Route
-            path='/' element={
-              <AuthGuard isAuthenticated={isAuthenticated}>
-                <Dashboard />
-              </AuthGuard>
-          }
-          />
-          <Route
-            path='/dashboard/:type' element={
-              <AuthGuard isAuthenticated={isAuthenticated}>
-                <Dashboard />
-              </AuthGuard>
-          }
-          />
-          <Route
-            path='/projects' element={
-              <AuthGuard isAuthenticated={isAuthenticated}>
-                <ProjectList />
-              </AuthGuard>
-          }
-          />
-          <Route
-            path='/projects/new' element={
-              <AuthGuard isAuthenticated={isAuthenticated}>
-                <ProjectForm />
-              </AuthGuard>
-          }
-          />
-          <Route
-            path='/projects/:pid/tasks' element={
-              <AuthGuard isAuthenticated={isAuthenticated}>
-                <TaskList />
-              </AuthGuard>
-          }
-          />
-          <Route
-            path='/projects/:pid/tasks/new' element={
-              <AuthGuard isAuthenticated={isAuthenticated}>
-                <TaskForm />
-              </AuthGuard>
-          }
-          />
-          <Route
-            path='/projects/:pid/tasks/:tid' element={
-              <AuthGuard isAuthenticated={isAuthenticated}>
-                <TaskDetails />
-              </AuthGuard>
-          }
-          />
-        </Routes>
-      </Router>
-    </AppContext.Provider>
-  )
+    return (
+        <AppContext.Provider value={{
+            user: userStore,
+            project: projectStore,
+            task: taskStore,
+            userSuggestion: userSuggestionStore,
+            regularUsersStore: regularUsersStore
+        }}
+        >
+            {
+                isAuthenticated && (
+                    <div className='app-header'>
+                        <div>
+                            <h5>Welcome, {userStore.data.email}</h5>
+                        </div>
+                        <div>
+                            <button onClick={() => {
+                                userStore.logout()
+                                setIsAuthenticated(false)
+                            }}
+                            >Logout
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
+            <ErrorDisplay/>
+            <Router>
+                <Routes>
+                    <Route path='/login' element={<LoginForm/>}/>
+                    <Route
+                        path='/' element={
+                        <AuthGuard isAuthenticated={isAuthenticated}>
+                            <Dashboard/>
+                        </AuthGuard>
+                    }
+                    />
+                    <Route
+                        path='/dashboard/:type' element={
+                        <AuthGuard isAuthenticated={isAuthenticated}>
+                            <Dashboard/>
+                        </AuthGuard>
+                    }
+                    />
+                    <Route
+                        path='/projects' element={
+                        <AuthGuard isAuthenticated={isAuthenticated}>
+                            <ProjectList/>
+                        </AuthGuard>
+                    }
+                    />
+                    <Route
+                        path='/projects/new' element={
+                        <AuthGuard isAuthenticated={isAuthenticated}>
+                            <ProjectForm/>
+                        </AuthGuard>
+                    }
+                    />
+                    <Route
+                        path='/projects/:pid/tasks' element={
+                        <AuthGuard isAuthenticated={isAuthenticated}>
+                            <TaskList/>
+                        </AuthGuard>
+                    }
+                    />
+                    <Route
+                        path='/projects/:pid/tasks/new' element={
+                        <AuthGuard isAuthenticated={isAuthenticated}>
+                            <TaskForm/>
+                        </AuthGuard>
+                    }
+                    />
+                    <Route
+                        path='/projects/:pid/tasks/:tid' element={
+                        <AuthGuard isAuthenticated={isAuthenticated}>
+                            <TaskDetails/>
+                        </AuthGuard>
+                    }
+                    />
+                </Routes>
+            </Router>
+        </AppContext.Provider>
+    )
 }
 
 export default App

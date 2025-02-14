@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 
 import AppContext from '../../state/AppContext'
 import { Link } from 'react-router-dom'
+import NonAdminUserList from "../NonAdminUserList";
 
 const Dashboard = () => {
   const globalState = useContext(AppContext)
@@ -13,7 +14,7 @@ const Dashboard = () => {
       {
         globalState.user.data.type === 'admin' && (
           <div>
-            TODO
+            <NonAdminUserList />
           </div>
         )
       }

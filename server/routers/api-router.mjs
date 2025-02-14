@@ -21,10 +21,14 @@ apiRouter.delete('/users/:uid/projects/:pid/tasks/:tid', middleware.getPermMiddl
 apiRouter.post('/users/:uid/projects/:pid/tasks/:tid/assignments', middleware.getPermMiddleware('pid', ['write']), controllers.task.assignTaskToUser)
 apiRouter.put('/users/:uid/projects/:pid/tasks/:tid/status', middleware.assignedTaskMiddleware, controllers.task.updateAssignedTaskStatus)
 
+// user stuff
 // get user profile
 apiRouter.get('/users/:uid/profile', controllers.user.getUserProfile)
-
 // suggest user based on email
 apiRouter.get('/users/suggestions', controllers.user.suggestUser)
+// delete user profile
+apiRouter.delete('/users/:uid', controllers.user.deleteUser)
+// get regular users
+apiRouter.get('/users/regular', controllers.user.getRegularUsers)
 
 export default apiRouter
