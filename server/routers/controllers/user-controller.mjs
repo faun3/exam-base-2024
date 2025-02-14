@@ -41,6 +41,26 @@ const deleteUser = async (req, res, next) => {
             const isAffectedUserNotAdmin = user.type !== 'admin';
 
             if (isCallingUserAdmin && isAffectedUserNotAdmin) {
+                const usersProjects = await models.Project.findAll({
+                    where: {
+                        userId: user.id
+                    }
+                });
+
+                for (const project of usersProjects) {
+                    const tasksInProject = await models.Task.findAll({
+                        where: {
+                            projectId: project.id
+                        }
+                    });
+
+                    for (const task of tasksInProject) {
+                        await task.destroy();
+                    }
+
+                    await project.destroy();
+                }
+
                 await user.destroy();
             }
 
