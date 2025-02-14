@@ -2,6 +2,9 @@ import models from '../models/index.mjs'
 
 export default (resourceIdKey, rights) => {
   return async (req, res, next) => {
+
+    console.log('in middleware', req.params);
+
     const permission = await models.Permission.findOne({
       where: {
         forResource: req.params[resourceIdKey],

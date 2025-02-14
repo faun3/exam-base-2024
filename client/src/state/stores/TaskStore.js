@@ -9,9 +9,9 @@ class TaskStore {
     this.emitter = new EventEmitter()
   }
 
-  async getAll (state, projectId) {
+  async getAll(state, projectId, sortByPrio = false, filterByPriority = '') {
     try {
-      const response = await fetch(`${SERVER}/api/users/${state.user.data.id}/projects/${projectId}/tasks`, {
+      const response = await fetch(`${SERVER}/api/users/${state.user.data.id}/projects/${projectId}/tasks?sortByPrio=${sortByPrio || ''}&filterByPriority=${filterByPriority}`, {
         headers: {
           authorization: state.user.data.token
         }

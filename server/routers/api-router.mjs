@@ -21,6 +21,8 @@ apiRouter.delete('/users/:uid/projects/:pid/tasks/:tid', middleware.getPermMiddl
 apiRouter.post('/users/:uid/projects/:pid/tasks/:tid/assignments', middleware.getPermMiddleware('pid', ['write']), controllers.task.assignTaskToUser)
 apiRouter.put('/users/:uid/projects/:pid/tasks/:tid/status', middleware.assignedTaskMiddleware, controllers.task.updateAssignedTaskStatus)
 
+apiRouter.put('/users/:userId/projects/:projectId/tasks/:taskId/priority', middleware.getPermMiddleware('taskId', ['write']), controllers.task.updateTaskPriority);
+
 // user stuff
 // get user profile
 apiRouter.get('/users/:uid/profile', controllers.user.getUserProfile)
