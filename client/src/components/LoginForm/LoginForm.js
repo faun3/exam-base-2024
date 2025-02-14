@@ -1,7 +1,7 @@
 import './LoginForm.css'
 import React, { useState, useContext, useEffect } from 'react'
 import AppContext from '../../state/AppContext'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
 
 const LoginForm = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -39,6 +39,12 @@ const LoginForm = () => {
           onChange={e => setPassword(e.target.value)}
         />
         <button onClick={handleLoginClick}>Login</button>
+        <div>
+          <p>Don't have an account? Create one below</p>
+          <Link to={'/register'}>
+            <button>Register</button>
+          </Link>
+        </div>
       </div>
     </div>
   )

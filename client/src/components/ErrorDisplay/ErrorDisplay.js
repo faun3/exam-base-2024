@@ -27,6 +27,10 @@ const ErrorDisplay = () => {
     globalState.project.emitter.addListener('DELETE_PROJECT_ERROR', () => {
       setMessage('DELETE_PROJECT_ERROR')
     })
+
+    globalState.user.emitter.addListener('REGISTER_ERROR', () => {
+      setMessage('REGISTER_ERROR');
+    })
   }, [])
 
   useEffect(() => {

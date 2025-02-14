@@ -18,6 +18,7 @@ import TaskStore from '../../state/stores/TaskStore'
 import UserSuggestionStore from '../../state/stores/UserSuggestionStore'
 import ErrorDisplay from '../ErrorDisplay'
 import RegularUsersStore from "../../state/stores/RegularUsersStore";
+import RegisterForm from "../RegisterForm";
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -62,6 +63,7 @@ const App = () => {
             <ErrorDisplay/>
             <Router>
                 <Routes>
+                    <Route path={'/register'} element={<RegisterForm/>}/>
                     <Route path='/login' element={<LoginForm/>}/>
                     <Route
                         path='/' element={

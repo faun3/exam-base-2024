@@ -1,4 +1,5 @@
 import models from '../../models/index.mjs'
+import priority from "../../models/priority.mjs";
 
 const getAllTasksForProject = async (req, res, next) => {
   try {
@@ -37,7 +38,13 @@ const getAllTasksForProject = async (req, res, next) => {
         required: false,
         as: 'assignedTo',
         attributes: ['id', 'email']
-      }]
+      }, {
+        model: models.Priority,
+        required: true,
+        as: 'priority',
+        attributes: ['priorityLevel']
+      }
+      ]
     })
     res.status(200).json({ data, count })
   } catch (err) {
@@ -78,10 +85,17 @@ const getOneTaskForProject = async (req, res, next) => {
 
 const createOwnedTaskForProject = async (req, res, next) => {
   try {
+
     const task = await models.Task.create({
       ...req.body,
       projectId: req.params.pid
     })
+
+    await models.Priority.create({
+      priorityLevel: req.body.priority ?? 'high',
+      taskId: task.id
+    })
+
     await models.Permission.create({
       forResource: task.id,
       forUser: req.params.uid,

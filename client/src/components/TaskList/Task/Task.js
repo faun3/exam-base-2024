@@ -48,6 +48,7 @@ const Task = ({ task }) => {
                     <td>{task.title}</td>
                     <td>{task.description}</td>
                     <td>{task.status}</td>
+                    <td>{task.priority.priorityLevel}</td>
                     <td>{task.assignedTo ? task.assignedTo.email : 'unassigned'}</td>
                     <td>
                       <button onClick={() => setIsEditing(true)}>Edit</button>
